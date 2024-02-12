@@ -1,4 +1,3 @@
-// Login.tsx
 import React, { useState } from "react";
 import { authService } from "../../services/AuthService"; // Import the AuthService
 import { useNavigate } from "react-router-dom"; // To redirect after login
