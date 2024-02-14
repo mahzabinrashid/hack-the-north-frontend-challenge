@@ -79,15 +79,23 @@ const NavbarLink = styled(Link)`
 `;
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const isLoggedIn = authService.isAuthenticated();
+  const [isLoggedIn, setIsLoggedIn] = useState(authService.isAuthenticated());
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
+    const onAuthChange = () => {
+      setIsLoggedIn(authService.isAuthenticated());
+    };
+
+    window.addEventListener("authChange", onAuthChange);
+
+    return () => {
+      window.removeEventListener("authChange", onAuthChange);
+    };
+  }, []);
 
   return (
     <NavbarContainer>

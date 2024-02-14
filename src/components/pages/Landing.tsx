@@ -1,61 +1,11 @@
-import React from "react";
 import styled from "styled-components";
-import LogoutButton from "../common/Layout/Navbar/LogoutButton";
 import { mediaQueries } from "src/utils/responsive";
 import { FlickerAnimationKeyframes } from "../common/UI/Animation";
 import { LeftStarsAndGears, RightStarsAndGears } from "src/assets/img";
 import Button from "../common/UI/Button";
 import theme from "src/styles/theme";
 import { Link } from "react-router-dom";
-import GlowText from "../common/UI/GlowText/GlowText";
-import Navbar from "../common/Layout/Navbar/Navbar";
-
-function Landing() {
-  return (
-    <LandingContainer>
-      <Heading>
-        <GlowText color={theme.colors.primary.blue}>Hack the North</GlowText>
-      </Heading>
-      <SubHeading>
-        View events taking place. Log in to view exclusive hackers only events!
-      </SubHeading>
-      <LeftStarsGears src={LeftStarsAndGears} alt="" />
-      <RightStarsGears src={RightStarsAndGears} alt="" />
-
-      <ButtonContainer>
-        <Link to={`/login`}>
-          <Button
-            gradientStartColor={theme.colors.hover.blue}
-            gradientEndColor={theme.colors.hover.cyan}
-            hoverGradientStartColor={theme.colors.primary.blue}
-            hoverGradientEndColor={theme.colors.primary.cyan}
-            boxShadow={theme.colors.primary.cyan}
-            width={240}
-            aria-label="Login button"
-          >
-            LOG IN
-          </Button>
-        </Link>{" "}
-        <Link to={"/events"}>
-          {" "}
-          <Button
-            gradientStartColor={theme.colors.hover.blue}
-            gradientEndColor={theme.colors.hover.purple}
-            hoverGradientStartColor={theme.colors.primary.blue}
-            hoverGradientEndColor={theme.colors.primary.purple}
-            boxShadow={theme.colors.primary.cyan}
-            width={240}
-            aria-label="Login button"
-          >
-            PUBLIC EVENTS
-          </Button>
-        </Link>
-      </ButtonContainer>
-    </LandingContainer>
-  );
-}
-
-export default Landing;
+import GlowText from "../common/UI/GlowText";
 
 const LandingContainer = styled.div`
   display: flex;
@@ -152,3 +102,50 @@ const ButtonContainer = styled.div`
     justify-content: center;
   }
 `;
+
+function Landing() {
+  return (
+    <LandingContainer>
+      <Heading>
+        <GlowText color={theme.colors.primary.blue}>Hack the North</GlowText>
+      </Heading>
+      <SubHeading>
+        View events taking place. Log in to view exclusive hackers only events!
+      </SubHeading>
+      <LeftStarsGears src={LeftStarsAndGears} alt="" />
+      <RightStarsGears src={RightStarsAndGears} alt="" />
+
+      <ButtonContainer>
+        <Link to={`/login`}>
+          <Button
+            gradientStartColor={theme.colors.hover.blue}
+            gradientEndColor={theme.colors.hover.cyan}
+            hoverGradientStartColor={theme.colors.primary.blue}
+            hoverGradientEndColor={theme.colors.primary.cyan}
+            boxShadow={theme.colors.primary.cyan}
+            width={240}
+            aria-label="Login button"
+          >
+            LOG IN
+          </Button>
+        </Link>{" "}
+        <Link to={"/events"}>
+          {" "}
+          <Button
+            gradientStartColor={theme.colors.hover.blue}
+            gradientEndColor={theme.colors.hover.purple}
+            hoverGradientStartColor={theme.colors.primary.blue}
+            hoverGradientEndColor={theme.colors.primary.purple}
+            boxShadow={theme.colors.primary.cyan}
+            width={240}
+            aria-label="Login button"
+          >
+            PUBLIC EVENTS
+          </Button>
+        </Link>
+      </ButtonContainer>
+    </LandingContainer>
+  );
+}
+
+export default Landing;

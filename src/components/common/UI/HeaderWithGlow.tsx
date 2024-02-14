@@ -1,5 +1,5 @@
 import React from "react";
-import GlowText from "./GlowText/GlowText";
+import GlowText from "./GlowText";
 
 interface HeaderWithGlowProps {
   text: string;

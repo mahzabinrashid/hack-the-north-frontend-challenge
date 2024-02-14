@@ -3,12 +3,22 @@ class AuthService {
 
   constructor() {
     this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    window.addEventListener("storage", () => {
+      this.isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    });
+  }
+
+  private updateLoginState(isLoggedIn: boolean): void {
+    this.isLoggedIn = isLoggedIn;
+    localStorage.setItem("isLoggedIn", isLoggedIn ? "true" : "false");
+    window.dispatchEvent(
+      new CustomEvent("authChange", { detail: { isLoggedIn } })
+    );
   }
 
   login(username: string, password: string): boolean {
     if (username === "admin" && password === "password") {
-      this.isLoggedIn = true;
-      localStorage.setItem("isLoggedIn", "true");
+      this.updateLoginState(true);
       localStorage.removeItem("eventOrder");
       return true;
     }
@@ -16,8 +26,7 @@ class AuthService {
   }
 
   logout(): void {
-    this.isLoggedIn = false;
-    localStorage.setItem("isLoggedIn", "false");
+    this.updateLoginState(false);
     localStorage.removeItem("eventOrder");
   }
 

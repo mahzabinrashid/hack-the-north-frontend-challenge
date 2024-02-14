@@ -10,8 +10,7 @@ import theme from "src/styles/theme";
 import Button from "../common/UI/Button";
 import ContentWrapper from "../common/Layout/ContentWrapper";
 import SectionContainer from "../common/Layout/SectionContainer";
-import HeaderWithGlow from "../common/UI/HeaderWithGlow";
-import GlowText from "../common/UI/GlowText/GlowText";
+import GlowText from "../common/UI/GlowText";
 
 const ButtonContainer = styled.div`
   display: flex;

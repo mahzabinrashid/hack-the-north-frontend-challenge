@@ -30,10 +30,7 @@ const FilterSelect = styled.select`
   font-size: 14px;
   font-weight: normal;
   cursor: pointer;
-
-
   option {
- 
     cursor: pointer;
   }
 `;

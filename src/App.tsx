@@ -1,11 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import {
-  Landing,
-  Login,
-  Events,
-  EventDetails,
-  NotFound,
-} from "./components/pages";
+import { Landing, Login, Events, EventDetails } from "./components/pages";
 import Navbar from "./components/common/Layout/Navbar/Navbar";
 
 function App() {
@@ -17,7 +11,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:eventId" element={<EventDetails />} />
-        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

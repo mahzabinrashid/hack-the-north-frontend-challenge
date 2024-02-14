@@ -236,7 +236,6 @@ const EventList: React.FC<EventListProps> = React.memo(
                   )}
                 </Draggable>
               ))}
-
               {provided.placeholder}
             </div>
           )}
