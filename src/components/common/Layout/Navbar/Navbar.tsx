@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { mediaQueries } from "src/utils/responsive";
 import styled from "styled-components";
 import LogoutButton from "./LogoutButton";
 import { authService } from "src/services/AuthService";
