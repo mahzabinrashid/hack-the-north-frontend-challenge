@@ -6,10 +6,12 @@ import {
   EventDetails,
   NotFound,
 } from "./components/pages";
+import Navbar from "./components/common/Layout/Navbar/Navbar";
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />

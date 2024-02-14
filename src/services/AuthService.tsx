@@ -22,7 +22,7 @@ class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return this.isLoggedIn;
+    return localStorage.getItem("isLoggedIn") === "true";
   }
 }
 

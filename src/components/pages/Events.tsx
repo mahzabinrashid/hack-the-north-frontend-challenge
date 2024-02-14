@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { authService } from "../../services/AuthService";
 import { TEvent } from "../../types/eventTypes";
-import convertUnixTimeToNormal from "../../utils/dateUtils";
-import {
-  DragDropContext,
-  Draggable,
-  DropResult,
-  Droppable,
-} from "react-beautiful-dnd";
+import { DropResult } from "react-beautiful-dnd";
+import EventSearchFilter from "../events/EventSearchFilter";
+import EventList from "../events/EventList";
+import ContentWrapper from "../common/Layout/ContentWrapper";
+import SectionContainer from "../common/Layout/SectionContainer";
+import HeaderWithGlow from "../common/UI/HeaderWithGlow";
+import theme from "src/styles/theme";
 
-function Events() {
-  const [events, setEvents] = useState<TEvent[]>([]); // stores complete ordered list of events
-  const [displayEvents, setDisplayEvents] = useState<TEvent[]>([]); // for searching, filtering, reordering
+const Events: React.FC = () => {
+  const [events, setEvents] = useState<TEvent[]>([]);
+  const [displayEvents, setDisplayEvents] = useState<TEvent[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [eventTypeFilter, setEventTypeFilter] = useState("");
 
@@ -20,10 +19,7 @@ function Events() {
     fetch("https://api.hackthenorth.com/v3/events")
       .then((response) => response.json())
       .then((data: TEvent[]) => {
-        // sort events in order by start_time
         let sortedEvents = data.sort((a, b) => a.start_time - b.start_time);
-
-        // retrieve event ordering from localStorage's eventOrder
         const savedOrderString = localStorage.getItem("eventOrder");
         let savedOrder: number[] | null = null;
         if (savedOrderString !== null) {
@@ -34,7 +30,6 @@ function Events() {
           const eventMap = new Map(
             sortedEvents.map((event) => [event.id, event])
           );
-
           const orderedEvents = savedOrder
             .map((id) => eventMap.get(id))
             .filter((event): event is TEvent => event !== undefined);
@@ -43,7 +38,6 @@ function Events() {
             sortedEvents = orderedEvents;
           }
         }
-        // only authenticated users can see private events
         const visibleEvents = authService.isAuthenticated()
           ? sortedEvents
           : sortedEvents.filter((event) => event.permission === "public");
@@ -56,7 +50,6 @@ function Events() {
   }, []);
 
   useEffect(() => {
-    // search and filter based on the event type functionality
     const filteredEvents = events.filter((event) => {
       const query = searchQuery.toLowerCase();
       const matchesSearch =
@@ -76,9 +69,7 @@ function Events() {
   }, [events, searchQuery, eventTypeFilter]);
 
   const onDragEnd = (result: DropResult) => {
-    // react-beautiful-dnd
     const { destination, source } = result;
-
     if (!destination || destination.index === source.index) {
       return;
     }
@@ -103,84 +94,28 @@ function Events() {
 
     setEvents(newEventsOrder);
 
-    // save event IDs ordering to localStorage
     const eventOrder = newEventsOrder.map((event) => event.id);
     localStorage.setItem("eventOrder", JSON.stringify(eventOrder));
   };
 
   return (
-    <div className="Events">
-      <h1>Events</h1>
-      <input
-        type="text"
-        placeholder="Search events..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <select
-        value={eventTypeFilter}
-        onChange={(e) => setEventTypeFilter(e.target.value)}
-      >
-        <option value="">All Types</option>
-        <option value="workshop">Workshop</option>
-        <option value="tech_talk">Tech Talk</option>
-        <option value="activity">Activity</option>
-      </select>
-
-      <div>
+    <ContentWrapper>
+      <SectionContainer>
+        <HeaderWithGlow text="Events" color={theme.colors.primary.cyan} />
+        <EventSearchFilter
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          eventTypeFilter={eventTypeFilter}
+          setEventTypeFilter={setEventTypeFilter}
+        />
         {displayEvents.length > 0 ? (
-          <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="events">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {displayEvents.map((event, index) => (
-                    <Draggable
-                      key={event.id}
-                      draggableId={String(event.id)}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          style={{
-                            padding: "10px",
-                            margin: "0 0 8px 0",
-                            backgroundColor: "#f4f4f4",
-                            borderRadius: "4px",
-                            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                            ...provided.draggableProps.style,
-                          }}
-                        >
-                          {/*  link to view each event  */}
-                          <Link
-                            to={`/events/${event.id}`}
-                            style={{ textDecoration: "none", color: "inherit" }}
-                          >
-                            <h2>{event.name}</h2>
-                          </Link>
-                          <p>Type: {event.event_type}</p>
-                          <p>Description: {event.description}</p>
-                          <p>
-                            Start Time:{" "}
-                            {convertUnixTimeToNormal(event.start_time)}
-                          </p>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+          <EventList events={displayEvents} onDragEnd={onDragEnd} />
         ) : (
           <p>No events found.</p>
         )}
-      </div>
-    </div>
+      </SectionContainer>
+    </ContentWrapper>
   );
-}
+};
 
 export default Events;
