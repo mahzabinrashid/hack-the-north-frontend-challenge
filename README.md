@@ -12,7 +12,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 [https://hack-the-north-frontend-challenge.netlify.app/](https://hack-the-north-frontend-challenge.netlify.app/) 
 
-# Demo
+## Demo
 
 [Watch the video](https://drive.google.com/file/d/1YwG0KlZFJTKS-Ru9QsJ1k9zETk624Hey/view?usp=sharing)
 
